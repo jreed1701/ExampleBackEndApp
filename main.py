@@ -4,8 +4,9 @@ import argparse as _argparse
 import datetime as _dt
 import sys as _sys
 
-_sys.path.append('.')
+#_sys.path.append('.')
 
+from source.launcher import Launcher
 
 _DESCRIPTION_MSG = """ """
 
@@ -41,18 +42,25 @@ class MainArgParse:
             
     def apply(self):
         
-        if self._subparser_name == 'hello':
-            print("Hello World!")
+        launch = Launcher()
+        
+        if self._subparser_name == 'prod':
+            print("Launching Production App!")
+            launch.run_app('PROD')
+        elif self._subparser_name == 'dev':
+            print("Launching Production App!")
+            launch.run_app('DEV')
             
     def _add_subparser(self, psr):
         
         sub = psr.add_subparsers(dest='_subparser_name',
                                  metavar='sub_commands',
                                  help='this is help')
+
+        prod = sub.add_parser('prod', help='launch production app')
+        dev = sub.add_parser('dev', help='launch devlopment app')
         
-        hello = sub.add_parser('hello', help='me')
-        
-        self._sub_list = [ hello ]
+        self._sub_list = [ prod, dev ]
         
         for item in self._sub_list:
             self._add_generic_args(item)
@@ -95,4 +103,5 @@ if __name__ == '__main__':
     _tb = _dt.datetime.now()
     
     _arg = MainArgParse()
+    
     _arg.apply()
