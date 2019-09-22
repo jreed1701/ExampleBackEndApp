@@ -48,7 +48,7 @@ class MainArgParse:
             print("Launching Production App!")
             launch.run_app('PROD')
         elif self._subparser_name == 'dev':
-            print("Launching Production App!")
+            print("Launching Development App!")
             launch.run_app('DEV')
             
     def _add_subparser(self, psr):
