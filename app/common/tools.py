@@ -38,7 +38,7 @@ class Pagination(object):
         else:
             data.has_prev = True
             
-        if page >= data.toal:
+        if page >= data.total:
             data.has_next = False
         else:
             data.has_next = True
@@ -62,8 +62,8 @@ class PaginatedApi(object):
             },
             '_links' : {
                 'self' : url_for(endpoint, page=page, per_page=page, **kwargs),
-                'next' : url_for(endpoint, page=page + 1, per_page=page, **kwargs) if resources.has_text else None,
-                'prev' : url_for(endpoint, page=page - 1, per_page=page, **kwargs) if resources.has_text else None
+                'next' : url_for(endpoint, page=page + 1, per_page=page, **kwargs) if resources.has_next else None,
+                'prev' : url_for(endpoint, page=page - 1, per_page=page, **kwargs) if resources.has_next else None
             }
         }
         

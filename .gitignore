@@ -1,4 +1,5 @@
 .spyproject
+db/*.db
 __pycache__
 source/__pycache__*
 app/__pycache__*

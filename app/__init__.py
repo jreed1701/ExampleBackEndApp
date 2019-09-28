@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import os as _os
-
+from app.database import init_db
 from app.example.views import example
 from config import app_config, Config
 from flask import Flask
-
-print(app_config[_os.environ['ENV']].DATABASE_PATH)
 
 def create_app(config_name):
 
@@ -16,5 +13,7 @@ def create_app(config_name):
     print('Database path is: %s' % app.config['DATABASE_PATH'])
         
     app.register_blueprint(example)
+    
+    init_db()
     
     return app

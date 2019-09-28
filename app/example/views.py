@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, request, jsonify
+import requests
+
+from flask import Blueprint, request, jsonify, url_for
 from app.example.models import ExampleModel
 from app.common.tools import check_for_object
+from app.database import db_session
 
 example = Blueprint('app', __name__)
 
@@ -25,15 +28,46 @@ def get_examples():
     ExampleModel.convert_from_strings(reqDict)
     
     if not reqDict:
-        data = ExampleModel.to_collection_dict(ExampleModel.query, page, per_page, all_data, 'api.get_examples')
+        data = ExampleModel.to_collection_dict(ExampleModel.query, page, per_page, all_data, 'app.get_examples')
         return jsonify(data)
     else:
         newQuery = ExampleModel.query_filter_by(**reqDict)
-        data = ExampleModel.to_collection_dict(newQuery, page, per_page, all_data, 'api.get_examples')
+        data = ExampleModel.to_collection_dict(newQuery, page, per_page, all_data, 'app.get_examples')
         return jsonify(data)
     
 @example.route('/example/<int:id>', methods=['GET'])
 def get_example(id):
-    return jsonify(check_for_object(ExampleModel, ExampleModel.id == id).to_dict())
+        return jsonify(check_for_object(ExampleModel, ExampleModel.id == id).to_dict())
 
+"""
+@example.route('/example/add/<int:new>', methods=['GET', 'PUT'])
+def add_example(new):
+    
+    if db_session.query(ExampleModel.id).filter_by(id = new) is not None:
+        
+        ex = ExampleModel()
+        
+        ex.id = new
+        ex.field1 = 'Example String'
+        
+        db_session.add(ex)
+        db_session.commit()
+        
+        #return url_for('app.get_example', variable=new)
+    
+        body = 'Success!'
+        response = jsonify(body)
+        response = requests.status_code = 201
+        
+        return response
+        
+    else:
+        body = 'That example record already exists'
+        
+        response = jsonify(body)
+        response = requests.status_code = 404
+        
+        return response
+        
+"""
 

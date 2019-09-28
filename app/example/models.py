@@ -2,7 +2,7 @@
 import sqlalchemy as db
 
 from app.common.tools import PaginatedApi, JsonDbSupport
-from app.app import Base
+from app.database import Base
 
 class ExampleModel(PaginatedApi, JsonDbSupport, Base):
 
