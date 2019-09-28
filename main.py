@@ -1,12 +1,12 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import argparse as _argparse
 import datetime as _dt
 import sys as _sys
+import os as _os
 
-#_sys.path.append('.')
-
-from source.launcher import Launcher
+from app import create_app
 
 _DESCRIPTION_MSG = """ """
 
@@ -14,7 +14,7 @@ _EPILOG_MSG = '''
     Examples:
 '''
 
-class MainArgParse:
+class MainArgParse(object):
     
     def __init__(self):
         
@@ -23,6 +23,7 @@ class MainArgParse:
         
         self._subparser_name = None
         
+        self.configuration = ''
         
         psr = _argparse.ArgumentParser(prog=__file__,
                                        description=_DESCRIPTION_MSG,
@@ -41,15 +42,12 @@ class MainArgParse:
             
             
     def apply(self):
-        
-        launch = Launcher()
-        
         if self._subparser_name == 'prod':
             print("Launching Production App!")
-            launch.run_app('PROD')
+            self.app = create_app('PROD')
         elif self._subparser_name == 'dev':
             print("Launching Development App!")
-            launch.run_app('DEV')
+            self.app = create_app('DEV')
             
     def _add_subparser(self, psr):
         
@@ -105,3 +103,7 @@ if __name__ == '__main__':
     _arg = MainArgParse()
     
     _arg.apply()
+    
+    _arg.app.run()
+    
+  
