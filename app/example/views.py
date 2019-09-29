@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 
-from flask import Blueprint, request, jsonify, url_for
+from flask import Blueprint, request, jsonify
 from app.example.models import ExampleModel
 from app.common.tools import check_for_object
 from app.database import db_session
@@ -39,16 +39,17 @@ def get_examples():
 def get_example(id):
         return jsonify(check_for_object(ExampleModel, ExampleModel.id == id).to_dict())
 
-"""
 @example.route('/example/add/<int:new>', methods=['GET', 'PUT'])
 def add_example(new):
     
-    if db_session.query(ExampleModel.id).filter_by(id = new) is not None:
-        
+    print('New is: %s' % new)
+    
+    if db_session.query(ExampleModel.id).filter_by(id = new).scalar() is None:
+                
         ex = ExampleModel()
         
         ex.id = new
-        ex.field1 = 'Example String'
+        ex.field1 = 'ExampleString'
         
         db_session.add(ex)
         db_session.commit()
@@ -57,17 +58,17 @@ def add_example(new):
     
         body = 'Success!'
         response = jsonify(body)
-        response = requests.status_code = 201
+        response.status_code = 201
         
         return response
         
     else:
+        
         body = 'That example record already exists'
         
         response = jsonify(body)
-        response = requests.status_code = 404
+        response.status_code = 404
         
         return response
         
-"""
 

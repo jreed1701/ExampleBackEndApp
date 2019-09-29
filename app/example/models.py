@@ -13,7 +13,7 @@ class ExampleModel(PaginatedApi, JsonDbSupport, Base):
     field1 = db.Column(db.String(256), nullable=True)
     
     def __repr__(self):
-        return '<Example ID{}>'.format(self.id)
+        return '<Example ID {}>'.format(self.id)
     
     def from_dict(self, data, new_entry=False):
         
@@ -31,7 +31,7 @@ class ExampleModel(PaginatedApi, JsonDbSupport, Base):
         
         data = {}
         
-        for column in self.__table__.column:
+        for column in self.__table__.columns:
             
             field = column.key
             

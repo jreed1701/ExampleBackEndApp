@@ -58,7 +58,7 @@ class PaginatedApi(object):
                 'page'        : page,
                 'per_page'    : per_page,
                 'total_pages' : resources.pages,
-                'total_items' : resources.items
+                'total_items' : resources.total
             },
             '_links' : {
                 'self' : url_for(endpoint, page=page, per_page=page, **kwargs),
